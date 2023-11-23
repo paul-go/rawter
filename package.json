@@ -1,0 +1,42 @@
+{
+	"name": "rawter",
+	"author": "Paul Gordon",
+	"description": "A router designed for use with RawJS apps",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/paul-go/rawter"
+	},
+	"bugs": {
+		"url": "https://github.com/paul-go/rawter/issues"
+	},
+	"main": "rawter.js",
+	"browser": "rawter.js",
+	"module": "rawter.esm.js",
+	"types": "rawter.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"LICENSE.txt",
+		"rawter.js",
+		"rawter.min.js",
+		"rawter.d.ts",
+		"rawter.d.ts.map",
+		"rawter.esm.js"
+	],
+	"scripts": {
+		"test": "exit 0",
+		"serve": "npx vite --host --port 4125",
+		"esm": "sed 's/\\/\\/+ //' ./+build/rawter.js > ./+build/rawter.esm.js",
+		"bundle": "tsc -p tsconfig.release.json && terser ./+build/rawter.debug.js > ./+build/rawter.min.js && npm run esm",
+		"release": "npm run bundle && cd ./+build && cp ../package.json ./package.json && np"
+	},
+	"devDependencies": {
+		"@scrollapp/rawjs": "^1.0.11"
+	},
+	"peerDependencies": {
+		"vite": "^2.9.13"
+	}
+}
