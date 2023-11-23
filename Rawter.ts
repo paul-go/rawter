@@ -207,4 +207,18 @@ namespace Rawter
 		 */
 		readonly components: string[];
 	}
+	
 }
+
+//@ts-ignore CommonJS compatibility
+if (typeof module === "object") Object.assign(module.exports, { Rawter});
+
+// ES module compatibility
+declare module "rawter"
+{
+	const __export: { Rawter: typeof Rawter };
+	export = __export;
+}
+
+// The comment and + prefix is removed during npm run bundle
+//+ export { Rawter }
