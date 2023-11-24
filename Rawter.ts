@@ -194,7 +194,7 @@ namespace Rawter
 }
 
 //@ts-ignore CommonJS compatibility
-if (typeof module === "object") Object.assign(module.exports, { Rawter});
+if (typeof module === "object") Object.assign(module.exports, { Rawter });
 
 // ES module compatibility
 declare module "rawter"
