@@ -2,7 +2,7 @@
 	"name": "rawter",
 	"author": "Paul Gordon",
 	"description": "A router designed for use with RawJS apps",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
