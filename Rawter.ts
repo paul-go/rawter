@@ -25,30 +25,30 @@ namespace Rawter
 	/**
 	 * 
 	 */
-	export function when(
+	export function onset(
 		route: string,
-		fn: WhenFn): Raw.Param
+		fn: RawterFn): Raw.Param
 	{
-		return whenInner(false, route, fn);
+		return onInner(false, route, fn);
 	}
 	
 	/**
 	 * 
 	 */
-	export function whenPicked(
+	export function on(
 		pattern: string,
-		fn: WhenFn): Raw.Param
+		fn: RawterFn): Raw.Param
 	{
-		return whenInner(true, pattern, fn);
+		return onInner(true, pattern, fn);
 	}
 	
 	/**
 	 * 
 	 */
-	function whenInner(
+	function onInner(
 		picked: boolean,
 		pattern: string,
-		whenFn: WhenFn): Raw.Param
+		whenFn: RawterFn): Raw.Param
 	{
 		if (!rawLocal)
 			Rawter.setup(new Raw());
@@ -57,7 +57,7 @@ namespace Rawter
 			pattern = "/" + pattern;
 		
 		pattern = normalizeRoute(pattern);
-		routePoints.push({ pattern, whenFn });
+		routePoints.push({ pattern, fn: whenFn });
 		
 		if (picked)
 		{
@@ -73,7 +73,7 @@ namespace Rawter
 	interface IRoutePoint
 	{
 		readonly pattern: string;
-		readonly whenFn: WhenFn;
+		readonly fn: RawterFn;
 		handledRoute?: string;
 	}
 	
@@ -84,12 +84,14 @@ namespace Rawter
 	 */
 	export function go(route: string)
 	{
+		const path = normalizeRoute(window.location.pathname);
+		const isBacktracking = routeStartsWith(route, path) && route.length < path.length;
 		history.pushState({}, "", route);
-		goInner(route);
+		goInner(route, isBacktracking);
 	}
 	
 	/** */
-	async function goInner(route: string)
+	async function goInner(route: string, isBacktracking = false)
 	{
 		route = normalizeRoute(route);
 		
@@ -104,10 +106,11 @@ namespace Rawter
 				if (routePoint.handledRoute === currentRoute)
 					continue;
 				
-				if (!matchRoute(routePoint.pattern, currentRoute))
+				if (!matchRoute(routePoint.pattern, currentRoute, isBacktracking))
 					continue;
 				
-				if (routePoint.whenFn(currentRoute) || !routePoint.pattern.split("/").includes(any))
+				if (routePoint.fn(currentRoute) ||
+					!routePoint.pattern.split("/").includes(any))
 					routePoint.handledRoute = currentRoute;
 			}
 		}
@@ -143,7 +146,7 @@ namespace Rawter
 	 * This function can be used to determine if /some/route/* is a match
 	 * for /some/route/123.
 	 */
-	function matchRoute(patternRoute: string, testRoute: string)
+	function matchRoute(patternRoute: string, testRoute: string, isBacktracking: boolean)
 	{
 		if (patternRoute === testRoute)
 			return true;
@@ -176,7 +179,8 @@ namespace Rawter
 	}
 	
 	/**
-	 * 
+	 * Normalizes the specified route so that it is in the
+	 * form: /route/is/here
 	 */
 	function normalizeRoute(route: string)
 	{
@@ -186,28 +190,7 @@ namespace Rawter
 	const any = "?";
 	
 	/** */
-	export type WhenFn = (route: string) => any;
-	
-	/** */
-	export interface IHandlerParam
-	{
-		/**
-		 * Contains a reference to any Event object, which will be available 
-		 * in the case when the handler function 
-		 */
-		readonly event?: Event;
-		
-		/**
-		 * Contains an array of decomposed string components of the path.
-		 */
-		readonly component: string;
-		
-		/**
-		 * 
-		 */
-		readonly components: string[];
-	}
-	
+	export type RawterFn = (route: string) => any;
 }
 
 //@ts-ignore CommonJS compatibility

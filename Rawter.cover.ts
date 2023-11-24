@@ -4,10 +4,7 @@ namespace Rawter.Cover
 	/** */
 	window.addEventListener("load", () =>
 	{
-		document.body.append(
-			new RootHat().head
-		);
-		
+		document.body.append(new RootHat().head);
 		Rawter.go("/blue/any");
 	});
 	
@@ -22,10 +19,10 @@ namespace Rawter.Cover
 		{
 			this.head = raw.div(
 				"root-hat",
-				Rawter.when("/", () => raw.get(this.buttons)(
+				Rawter.onset("/", () => raw.get(this.buttons)(
 					raw.button(
 						raw.text("Goto Red Hat"),
-						Rawter.whenPicked("/red", () =>
+						Rawter.on("/red", () =>
 						{
 							const hat = new RedHat();
 							this.target.replaceChildren(hat.head);
@@ -34,7 +31,7 @@ namespace Rawter.Cover
 					),
 					raw.button(
 						raw.text("Goto Blue Hat"),
-						Rawter.whenPicked("/blue", () =>
+						Rawter.on("/blue", () =>
 						{
 							const hat = new BlueHat();
 							this.target.replaceChildren(hat.head);
@@ -60,7 +57,7 @@ namespace Rawter.Cover
 				raw.text("Red Hat"),
 				raw.button(
 					raw.text("Goto Red Orange Hat"),
-					Rawter.whenPicked("/red/orange", () =>
+					Rawter.on("/red/orange", () =>
 					{
 						const hat = new OrangeHat();
 						this.target.replaceChildren(hat.head);
@@ -95,7 +92,7 @@ namespace Rawter.Cover
 			this.head = raw.div(
 				"blue-hat",
 				raw.text("Blue Hat"),
-				Rawter.whenPicked("/blue/?", route =>
+				Rawter.on("/blue/?", route =>
 				{
 					if (route === "/blue/any")
 					{
