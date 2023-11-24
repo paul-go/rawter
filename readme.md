@@ -12,7 +12,7 @@ npm install rawter --save
 ## Installation (No modules)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/rawter@1.0.0/rawter.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rawter/rawter.min.js"></script>
 ```
 
 To get TypeScript typings, first do an npm install:
