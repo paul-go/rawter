@@ -57,21 +57,21 @@ namespace Rawter
 			pattern = "/" + pattern;
 		
 		pattern = normalizeRoute(pattern);
-		routeRegistrations.push({ pattern, fn: whenFn });
 		
-		if (picked)
-		{
-			return rawLocal.on("click", ev =>
+		return [
+			element => { routeRegistrations.push({ element, pattern, fn: whenFn }) },
+			picked && rawLocal.on("click", ev =>
 			{
 				ev.preventDefault();
 				go(pattern);
-			});
-		}
+			})
+		];
 	}
 	
 	/** */
 	interface IRouteRegistration
 	{
+		readonly element: Element;
 		readonly pattern: string;
 		readonly fn: RawterFn;
 		handledRoute?: string;
@@ -99,18 +99,24 @@ namespace Rawter
 			.split("/")
 			.map((_, i, a) => "/" + a.slice(0, i + 1).filter(s => s).join("/"));
 		
+		for (let i = routeRegistrations.length; i-- > 0;)
+			if (!routeRegistrations[i].element.isConnected)
+				routeRegistrations.splice(i, 1);
+		
 		for (const currentRoute of routes)
 		{
 			for (const reg of routeRegistrations)
 			{
+				if (!matchRoute(reg.pattern, currentRoute))
+					continue;
+				
 				if (reg.handledRoute === currentRoute)
+					if (!(isBacktracking && reg.handledRoute === route))
 					continue;
 				
-				if (!matchRoute(reg.pattern, currentRoute, isBacktracking))
-					continue;
+				const fnResult = reg.fn(currentRoute);
 				
-				if (reg.fn(currentRoute) ||
-					!reg.pattern.split("/").includes(any))
+				if (fnResult || !reg.pattern.split("/").includes(any))
 					reg.handledRoute = currentRoute;
 			}
 		}
@@ -146,7 +152,7 @@ namespace Rawter
 	 * This function can be used to determine if /some/route/* is a match
 	 * for /some/route/123.
 	 */
-	function matchRoute(patternRoute: string, testRoute: string, isBacktracking: boolean)
+	function matchRoute(patternRoute: string, testRoute: string)
 	{
 		if (patternRoute === testRoute)
 			return true;
