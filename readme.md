@@ -28,7 +28,7 @@ Then add the typings to the `include` section of your tsconfig.json file:
 		
 	},
 	"include": [
-		"node_modules/@scrollapp/rawter/*.ts"
+		"node_modules/rawter/*.ts"
 	]
 }
 ```
