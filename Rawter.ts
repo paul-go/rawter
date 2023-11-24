@@ -57,7 +57,7 @@ namespace Rawter
 			pattern = "/" + pattern;
 		
 		pattern = normalizeRoute(pattern);
-		routePoints.push({ pattern, fn: whenFn });
+		routeRegistrations.push({ pattern, fn: whenFn });
 		
 		if (picked)
 		{
@@ -70,14 +70,14 @@ namespace Rawter
 	}
 	
 	/** */
-	interface IRoutePoint
+	interface IRouteRegistration
 	{
 		readonly pattern: string;
 		readonly fn: RawterFn;
 		handledRoute?: string;
 	}
 	
-	const routePoints: IRoutePoint[] = [];
+	const routeRegistrations: IRouteRegistration[] = [];
 	
 	/**
 	 * 
@@ -101,25 +101,25 @@ namespace Rawter
 		
 		for (const currentRoute of routes)
 		{
-			for (const routePoint of routePoints)
+			for (const reg of routeRegistrations)
 			{
-				if (routePoint.handledRoute === currentRoute)
+				if (reg.handledRoute === currentRoute)
 					continue;
 				
-				if (!matchRoute(routePoint.pattern, currentRoute, isBacktracking))
+				if (!matchRoute(reg.pattern, currentRoute, isBacktracking))
 					continue;
 				
-				if (routePoint.fn(currentRoute) ||
-					!routePoint.pattern.split("/").includes(any))
-					routePoint.handledRoute = currentRoute;
+				if (reg.fn(currentRoute) ||
+					!reg.pattern.split("/").includes(any))
+					reg.handledRoute = currentRoute;
 			}
 		}
 		
 		// Clean out the handledRoute properties, now that we're on a different route.
-		for (const rp of routePoints)
-			if (rp.handledRoute)
-				if (!routeStartsWith(rp.handledRoute, route))
-					rp.handledRoute = undefined;
+		for (const rr of routeRegistrations)
+			if (rr.handledRoute)
+				if (!routeStartsWith(rr.handledRoute, route))
+					rr.handledRoute = undefined;
 	}
 	
 	/**

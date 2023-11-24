@@ -26,7 +26,6 @@ namespace Rawter.Cover
 						{
 							const hat = new RedHat();
 							this.target.replaceChildren(hat.head);
-							return true;
 						}),
 					),
 					raw.button(
