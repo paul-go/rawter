@@ -2,7 +2,7 @@
 	"name": "rawter",
 	"author": "Paul Gordon",
 	"description": "A router designed for use with RawJS apps",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -30,7 +30,7 @@
 		"test": "exit 0",
 		"serve": "npx vite --host --port 4125",
 		"esm": "sed 's/\\/\\/+ //' ./+build/rawter.js > ./+build/rawter.esm.js",
-		"bundle": "tsc -p tsconfig.release.json && terser ./+build/rawter.debug.js > ./+build/rawter.min.js && npm run esm",
+		"bundle": "tsc -p tsconfig.release.json && terser ./+build/rawter.js > ./+build/rawter.min.js && npm run esm",
 		"release": "npm run bundle && cd ./+build && cp ../package.json ./package.json && np"
 	},
 	"devDependencies": {

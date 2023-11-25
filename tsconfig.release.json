@@ -3,8 +3,8 @@
 	"compilerOptions": {
 		"outFile": "+build/rawter.js"
 	},
-	"exclude": [
-		"**/+build/**/*.ts",
-		"**/*.cover.ts"
+	"include": [
+		"Rawter.ts",
+		"node_modules/@scrollapp/rawjs/*.ts"
 	]
 }
