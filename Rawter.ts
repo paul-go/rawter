@@ -14,12 +14,27 @@ namespace Rawter
 		
 		rawLocal = rawReference!;
 		
-		window.addEventListener("popstate", () =>
+		window.addEventListener("popstate", ev =>
 		{
-			goInner(window.location.pathname);
+			const normalize = (s: string) => "/" + s.split("/").filter(s => !!s).join("/") + "/";
+			const pathNormal = normalize(window.location.pathname);
+			const lastPathNormal = normalize(lastPath);
+			
+			const isBacktracking =
+				pathNormal.length < lastPath.length &&
+				lastPathNormal.startsWith(pathNormal);
+			
+			goInner(pathNormal, isBacktracking);
 		});
+		
+		setInterval(() =>
+		{
+			lastPath = window.location.pathname;
+		},
+		100);
 	}
 	
+	let lastPath = "";
 	let rawLocal: Raw;
 	
 	/**
@@ -84,7 +99,9 @@ namespace Rawter
 	const routeRegistrations: IRouteRegistration[] = [];
 	
 	/**
-	 * 
+	 * Force the browser window to render the routes for the specified path.
+	 * If the path argument is omitted, the current path in the address bar is
+	 * used. 
 	 */
 	export function go(route = window.location.pathname)
 	{
