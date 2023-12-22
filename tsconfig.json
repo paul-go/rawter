@@ -24,6 +24,6 @@
 	},
 	"include": [
 		"*.ts",
-		"node_modules/@scrollapp/rawjs/*.ts"
+		"node_modules/@squaresapp/rawjs/*.ts"
 	]
 }

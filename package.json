@@ -34,7 +34,7 @@
 		"release": "npm run bundle && cd ./+build && cp ../package.json ./package.json && np"
 	},
 	"devDependencies": {
-		"@scrollapp/rawjs": "^1.0.11"
+		"@squaresapp/rawjs": "^1.3.7"
 	},
 	"peerDependencies": {
 		"vite": "^2.9.13"

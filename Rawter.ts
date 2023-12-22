@@ -51,7 +51,7 @@ namespace Rawter
 		whenFn: RawterFn): Raw.Param
 	{
 		if (!rawLocal)
-			Rawter.setup(new Raw());
+			Rawter.setup(new Raw(document));
 		
 		if (!pattern.startsWith("/"))
 			pattern = "/" + pattern;
@@ -82,7 +82,7 @@ namespace Rawter
 	/**
 	 * 
 	 */
-	export function go(route: string)
+	export function go(route = window.location.pathname)
 	{
 		const path = normalizeRoute(window.location.pathname);
 		const isBacktracking = routeStartsWith(route, path) && route.length < path.length;
