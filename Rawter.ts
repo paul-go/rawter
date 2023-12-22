@@ -14,7 +14,7 @@ namespace Rawter
 		
 		rawLocal = rawReference!;
 		
-		window.addEventListener("popstate", ev =>
+		window.addEventListener("popstate", () =>
 		{
 			const normalize = (s: string) => "/" + s.split("/").filter(s => !!s).join("/") + "/";
 			const pathNormal = normalize(window.location.pathname);
