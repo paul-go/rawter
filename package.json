@@ -31,7 +31,7 @@
 		"serve": "npx vite --host --port 4125",
 		"esm": "sed 's/\\/\\/+ //' ./+build/rawter.js > ./+build/rawter.esm.js",
 		"bundle": "tsc -p tsconfig.release.json && terser ./+build/rawter.js > ./+build/rawter.min.js && npm run esm",
-		"release": "npm run bundle && cd ./+build && cp ../package.json ./package.json && np"
+		"release": "npm run bundle && cd ./+build && cp ../package.json ./package.json && np && cp ./package.json ../package.json"
 	},
 	"devDependencies": {
 		"@squaresapp/rawjs": "^1.3.7"
