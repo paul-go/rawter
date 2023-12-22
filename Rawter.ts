@@ -23,7 +23,8 @@ namespace Rawter
 	let rawLocal: Raw;
 	
 	/**
-	 * 
+	 * Executes the specified routing function when the address bar changes
+	 * to display the route specified.
 	 */
 	export function onset(
 		route: string,
@@ -33,7 +34,10 @@ namespace Rawter
 	}
 	
 	/**
-	 * 
+	 * Executes the specified routing function when the address bar changes
+	 * to display the route specified. This function also installs a click event handler
+	 * on the container, which activates the specified route when the attached
+	 * element is selected.
 	 */
 	export function on(
 		pattern: string,
